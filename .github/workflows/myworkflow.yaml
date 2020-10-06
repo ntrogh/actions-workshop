@@ -15,10 +15,10 @@ jobs:
             - uses: actions/checkout@v2
                 
             - name: Push to Docker Hub
-                uses: docker/build-push-action@v1
-                with:
-                    username: ${{ secrets.DOCKER_USERNAME }}
-                    password: ${{ secrets.DOCKER_PASSWORD }}
-                    repository: ntrogh/wallofzen1
-                    tags: latest,${{ github.sha }}
-                    tag_with_ref: false
+              uses: docker/build-push-action@v1
+              with:
+                  username: ${{ secrets.DOCKER_USERNAME }}
+                  password: ${{ secrets.DOCKER_PASSWORD }}
+                  repository: ntrogh/wallofzen1
+                  tags: latest,${{ github.sha }}
+                  tag_with_ref: false
