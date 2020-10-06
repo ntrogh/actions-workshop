@@ -48,7 +48,20 @@ jobs:
             - name: 'Output API url'
               run: echo "API url is ${{ steps.aci-deploy.outputs.app-url }}addtowall?repoUrl=https://github.com/${{ github.repository }}"
 
-            - name: Curl API
+            - name: Curl API - no output here!
               run: |
                 curl "${{ steps.aci-deploy.outputs.app-url }}addtowall?repoUrl=https://github.com/${{ github.repository }}"
     
+            - name: 'Invoke API to post on Zen wall'
+              id: invoke-api
+              uses: fjogeleit/http-request-action@master
+              with:
+                url: "${{ steps.aci-deploy.outputs.app-url }}addtowall?repoUrl=https://github.com/${{ github.repository }}"
+                method: "GET"
+            
+            - name: 'Output Zen Wall url - full'
+              run: echo 'Check your quote (${{ steps.invoke-api.outputs.response }}) on the Zen Wall https://aka.ms/wallofzen'
+      
+            - name: 'Output Zen Wall url'
+              run: echo 'Check your quote (${{ fromJSON(fromJSON(steps.invoke-api.outputs.response)).quote }}) on the Zen Wall https://aka.ms/wallofzen'
+      
