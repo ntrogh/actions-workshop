@@ -22,3 +22,23 @@ jobs:
                   repository: ntrogh/wallofzen1
                   tags: latest,${{ github.sha }}
                   tag_with_ref: false
+
+    deploy:
+        runs-on: ubuntu-latest
+        needs: build
+
+        steps:
+            - uses: azure/login@v1.1
+              with:
+                creds: ${{ secrets.AZURE_CREDENTIALS }}
+  
+            - uses: 'azure/aci-deploy@v1'
+              id: aci-deploy
+              with:
+                  resource-group: devopsdaysams
+                  dns-name-label: wallofzen3
+                  image: ntrogh/wallofzen1:${{ github.sha }}
+                  name: ntwallofzen3
+                  location: 'west europe'
+                  environment-variables: BASE_URL=https://devopsdaysams.azurewebsites.net/api/AddToWall
+      
