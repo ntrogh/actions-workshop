@@ -41,4 +41,14 @@ jobs:
                   name: ntwallofzen3
                   location: 'west europe'
                   environment-variables: BASE_URL=https://devopsdaysams.azurewebsites.net/api/AddToWall
-      
+
+            - name: 'Output ACI url'
+              run: echo "ACI URL is ${{ steps.aci-deploy.outputs.app-url }}"
+
+            - name: 'Output API url'
+              run: echo "API url is ${{ steps.aci-deploy.outputs.app-url }}addtowall?repoUrl=https://github.com/${{ github.repository }}"
+
+            - name: Curl API
+              run: |
+                curl "${{ steps.aci-deploy.outputs.app-url }}addtowall?repoUrl=https://github.com/${{ github.repository }}"
+    
